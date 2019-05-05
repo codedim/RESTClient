@@ -1,0 +1,120 @@
+@CHARSET "UTF-8";
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+
+/* common containers */
+
+@media only screen and (max-width: 767px) {
+	section.container { 
+		width: 100%;
+		padding: 0 22px;
+	}
+}
+section.container {
+	min-width: 480px;
+	display: table;
+}
+
+/* common rows */
+
+.row {
+	display: block;
+}
+.row-top-ws {
+	margin-top: 6px;
+}
+.row-bottom-ws {
+	margin-bottom: 6px;
+}
+.row > hr {
+	margin-top: 8px;
+	border-top: 1px solid #ddd;
+}
+
+/* common col-blocks */
+
+.col-fixed, /* extends bootstrap classes */
+.col-wide { /* extends bootstrap classes */
+	display: table-cell;
+}
+.col-wide { 
+	width: 100%;
+}
+.col-fixed, .col-wide, .col-12 {
+	padding: 8px 5px;
+}
+.col-not-ws {
+	padding: 8px 0;
+}
+.col-left-ws {
+	padding: 8px 0 8px 5px;
+}
+.col-right-ws {
+	padding: 8px 5px 8px 0;
+}
+.col-both-ws {
+	padding: 8px 10px;
+}
+
+/* common inputs */
+
+select, input, button {
+	height: 28px;
+}
+input[type=text], input[type=url] {
+	padding: 1px 4px;
+}
+.col-wide > input[type=text], 
+.col-wide > input[type=url], 
+.col-12 > textarea {
+	width: 100%;
+}
+.col-fixed > button {
+	padding: 0 12px;
+}
+
+/* common nav-tabs */
+
+ul.nav {
+	margin: 12px 0 10px;
+}
+ul.nav > li > a {
+	padding: 6px 14px;
+}
+
+/* common text headlines */
+
+h3 {
+	margin: 0;
+	font-family: monospace;
+	font-size: 1.7em;
+}
+h4 {
+	margin: 0;
+	font-family: monospace;
+	font-size: 1.0em;
+}
+.unsafe {
+	color: #d44;
+}
+
+/* req-headers class elems */
+
+.req-headers {
+	padding: 2px 5px;
+}
+.req-headers > select, 
+.req-headers > input {
+	height: 23px;
+	font-family: monospace;
+}
+.req-headers > button {
+	width: 26px;
+	height: 22px;
+	padding: 0 8px;
+}
+
+/* common hidden class */
+
+.hidden {
+	display: none;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Simple REST Client 1.0</title>
+	
+	<link rel="stylesheet" href="restclient.css">
+	<script src="restclient.js" ></script>
+</head>
+<body>
+<section class="container">
+	
+	<div class="row">
+		<div class="col-fixed col-not-ws">
+			Method<br>
+			<select id="reqMethod">
+			    <option value="GET" selected>GET</option>
+			    <option value="OPTIONS">OPTIONS</option>
+			    <option value="HEAD">HEAD</option>
+			    <option value="POST">POST</option>
+			    <option value="PUT">PUT</option>
+			    <option value="DELETE">DELETE</option>
+		    </select>
+		    </div>
+	    <div class="col-wide col-both-ws">
+		    Request&nbsp;URI<br>
+		    <input type="url" id="reqUri" pattern="http.?://.*" 
+		    	placeholder="http://example.com/path/to/restapi/" required>
+		</div>
+		<div class="col-fixed col-not-ws">
+			&nbsp;<br>
+			<button class="btn btn-primary" id="sendRequest">SEND</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<ul class="nav nav-tabs">
+            <li class="active" id="tabReqHeaders"><a href="#">Headers</a></li>
+            <li id="tabReqBody"><a href="#">Body</a></li>
+        </ul>
+	</div>
+	
+	<div id="wrapReqHeaders">
+	<div id="reqHeaders"></div>
+	<div class="row row-top-ws row-bottom-ws">
+		<div class="col-fixed req-headers">
+			<select id="newReqHeaderName">
+		    </select>
+		</div>
+		<div class="col-wide req-headers">
+			<input type="text" id="newHeaderValue">
+		</div>
+		<div class="col-fixed req-headers">
+			<button class="btn btn-success" id="addNewHeader">+</button>
+		</div>
+	</div>
+	</div>
+	
+	<div class="hidden" id="wrapReqBody">
+	<div class="row">
+		<div class="col-12">
+			<textarea id="regBody" rows="2"></textarea>
+		</div>
+	</div>
+	</div>
+	
+	<div class="row">
+		<hr>
+	</div>
+</section>
+
+<section class="container">
+	
+	<div class="row">
+		<div class="col-fixed col-not-ws">
+			<h3><span class="label label-default" id="resStatus">Response</span></h3>
+		</div>
+	    <div class="col-wide col-both-ws">
+		    <span id="resTime">0.00 ms</span>
+		</div>
+	</div>
+	
+	<div class="row">
+		<ul class="nav nav-tabs">
+            <li class="active" id="tabResHeaders">
+            	<a href="#">Headers <span class="badge">0</span></a>
+            </li>
+            <li id="tabResBody">
+            	<a href="#">Body <span class="badge">0</span></a>
+            </li>
+        	</ul>
+	</div>
+	
+	<div class="row" id="wrapResHeaders">
+		<div class="col-12" id="resHeaders">
+		</div>
+	</div>
+	
+	<div class="row hidden" id="wrapResBody">
+		<div class="col-12">
+			<textarea id="resBody" rows="1" readonly></textarea>
+		</div>
+	</div>
+	
+	<div class="row">
+		<hr>
+	</div>
+</section>
+</body>
+</html>
