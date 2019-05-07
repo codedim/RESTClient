@@ -2,9 +2,14 @@
 **  powered by codedim, 2019
 **  
 **  TODOs: 
-**  * visualization of response waiting process;
-**  * response body button "View as HTML";
-**  * response body button "View as JSON";
+**    * visualization of response waiting process;
+**    * conservation of list of requested URI;
+**  
+**  v.1.1 ADDED:
+**    * response body tab "View as JSON";
+**    * response body tab "View as HTML";
+**  v.1.1 FIXED:
+**    * some bug related to request body;
 */
 
 ;var window = window || {};
@@ -136,7 +141,9 @@
 		$('#tabReqHeaders').addEventListener('click', showReqHeaders);
 		$('#tabReqBody').addEventListener('click', showReqBody);
 		$('#tabResHeaders').addEventListener('click', showResHeaders);
-		$('#tabResBody').addEventListener('click', showResBody);
+		$('#tabResRawBody').addEventListener('click', showResRawBody);
+		$('#tabResJsonBody').addEventListener('click', showResJsonBody);
+		$('#tabResHtmlBody').addEventListener('click', showResHtmlBody);
 		
 		// request headers
 		$('#newReqHeaderName').addEventListener('change', setNewReqHeaderName);
@@ -206,19 +213,40 @@
 		$('#wrapReqBody').classList.remove('hidden');
 		$('#wrapReqHeaders').classList.add('hidden');
 	}
-	
-	function showResHeaders() {
-		$('#tabResHeaders').classList.add('active');
-		$('#tabResBody').classList.remove('active');
-		$('#wrapResHeaders').classList.remove('hidden');
-		$('#wrapResBody').classList.add('hidden');
+
+	function resetAllResElems() {
+		$('#tabResHeaders').classList.remove('active');
+		$('#tabResRawBody').classList.remove('active');
+		$('#tabResJsonBody').classList.remove('active');
+		$('#tabResHtmlBody').classList.remove('active');
+		$('#wrapResHeaders').classList.add('hidden');
+		$('#wrapResRawBody').classList.add('hidden');
+		$('#wrapResJsonBody').classList.add('hidden');
+		$('#wrapResHtmlBody').classList.add('hidden');
 	}
 	
-	function showResBody() {
-		$('#tabResBody').classList.add('active');
-		$('#tabResHeaders').classList.remove('active');
-		$('#wrapResBody').classList.remove('hidden');
-		$('#wrapResHeaders').classList.add('hidden');
+	function showResHeaders() {
+		resetAllResElems();
+		$('#tabResHeaders').classList.add('active');
+		$('#wrapResHeaders').classList.remove('hidden');
+	}
+	
+	function showResRawBody() {
+		resetAllResElems();
+		$('#tabResRawBody').classList.add('active');
+		$('#wrapResRawBody').classList.remove('hidden');
+	}
+
+	function showResJsonBody() {
+		resetAllResElems();
+		$('#tabResJsonBody').classList.add('active');
+		$('#wrapResJsonBody').classList.remove('hidden');
+	}
+
+	function showResHtmlBody() {
+		resetAllResElems();
+		$('#tabResHtmlBody').classList.add('active');
+		$('#wrapResHtmlBody').classList.remove('hidden');
 	}
 
 	function setRequestHeaders() {
@@ -363,7 +391,7 @@
 	}
 	
 	function processServerResponse(xhr) {
-		var resStatus = $('#resStatus'), textArr;
+		var resStatus = $('#resStatus'), textLines;
 		
 		// response status
 		resStatus.innerText = xhr.status + ': ' + xhr.statusText;
@@ -377,14 +405,17 @@
 			resStatus.className = 'label label-danger';
 				
 		// response headers
-		textArr = xhr.getAllResponseHeaders().split('\n');
-		processResponseHeaders(textArr);
+		textLines = xhr.getAllResponseHeaders().split('\n');
+		processResponseHeaders(textLines);
 		
-		// response body
-		$('#resBody').value = xhr.responseText;
-		textArr = xhr.responseText.split('\n');
-		$('#resBody').rows = textArr.length;
-		$('#tabResBody span').innerText = xhr.responseText.length;
+		// response raw body
+		processResponseRawBody(xhr.responseText);
+
+		// response json body
+		processResponseJsonBody(xhr.responseText);
+
+		// response html/xml body
+		processResponseHtmlBody(xhr.responseText);
 	}
 	
 	function processResponseHeaders(headers) {
@@ -396,6 +427,55 @@
 			++counter;
 		}
 		$('#tabResHeaders span').innerText = counter;
+	}
+
+	function processResponseRawBody(text) {
+		var charLen = 8, // estimated character length in px
+			// textarea width ~= row width - (paddings + borders)
+			textAreaWidth = $('#statusRow').clientWidth - 12,
+			textLines = text.split('\n');
+		
+		$('#resRawBody').value = text;
+		if (textLines.length > 1) {
+			$('#resRawBody').rows = textLines.length;
+		} else {
+			$('#resRawBody').rows = Math.round(text.length / 
+				(textAreaWidth / charLen)) + 1;
+		}
+		$('#tabResRawBody span').innerText = text.length;
+	}
+
+	function processResponseJsonBody(json) {
+		var charLen = 8,
+			textAreaWidth = $('#statusRow').clientWidth - 12;
+		
+		$('#resJsonBody').value = '';
+		$('#resJsonBody').rows = 1;
+		$('#tabResJsonBody span').innerText = '';
+
+		if (json[0] == '<') return;
+		try {
+			json = JSON.parse(json);
+			json = JSON.stringify(json);
+		} catch {
+			return;
+		}
+		
+		var elem = $('#resJsonBody');
+		$('#resJsonBody').value = json;
+		$('#resJsonBody').rows = Math.round(json.length / 
+			(textAreaWidth / charLen)) + 1;
+		$('#tabResJsonBody span').innerHTML = '&#10003;';
+	}
+
+	function processResponseHtmlBody(html) {
+		$('#resHtmlBody').srcdoc = '';
+		$('#tabResHtmlBody span').innerText = '';
+
+		if (html[0] != '<' || html.indexOf('<?xml') == 0) return;
+
+		$('#resHtmlBody').srcdoc = html;
+		$('#tabResHtmlBody span').innerHTML = '&#10003;';
 	}
     
 }(window));

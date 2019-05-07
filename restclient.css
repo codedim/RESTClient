@@ -60,12 +60,16 @@ section.container {
 select, input, button {
 	height: 28px;
 }
+textarea {
+	font-family: monospace;
+}
 input[type=text], input[type=url] {
 	padding: 1px 4px;
 }
 .col-wide > input[type=text], 
 .col-wide > input[type=url], 
-.col-12 > textarea {
+.col-12 > textarea,
+.col-12 > iframe {
 	width: 100%;
 }
 .col-fixed > button {

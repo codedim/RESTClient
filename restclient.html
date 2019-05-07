@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Simple REST Client 1.0</title>
+	<title>REST Client 1.1</title>
 	
 	<link rel="stylesheet" href="restclient.css">
 	<script src="restclient.js" ></script>
@@ -60,7 +60,7 @@
 	<div class="hidden" id="wrapReqBody">
 	<div class="row">
 		<div class="col-12">
-			<textarea id="regBody" rows="2"></textarea>
+			<textarea id="reqBody" rows="2"></textarea>
 		</div>
 	</div>
 	</div>
@@ -72,7 +72,7 @@
 
 <section class="container">
 	
-	<div class="row">
+	<div class="row" id="statusRow">
 		<div class="col-fixed col-not-ws">
 			<h3><span class="label label-default" id="resStatus">Response</span></h3>
 		</div>
@@ -86,8 +86,14 @@
             <li class="active" id="tabResHeaders">
             	<a href="#">Headers <span class="badge">0</span></a>
             </li>
-            <li id="tabResBody">
-            	<a href="#">Body <span class="badge">0</span></a>
+            <li id="tabResRawBody">
+            	<a href="#">Raw <span class="badge">0</span></a>
+            </li>
+            <li id="tabResJsonBody">
+            	<a href="#">JSON <span class="badge"></span></a>
+            </li>
+            <li id="tabResHtmlBody">
+            	<a href="#">HTML <span class="badge"></span></a>
             </li>
         	</ul>
 	</div>
@@ -97,9 +103,19 @@
 		</div>
 	</div>
 	
-	<div class="row hidden" id="wrapResBody">
+	<div class="row hidden" id="wrapResRawBody">
 		<div class="col-12">
-			<textarea id="resBody" rows="1" readonly></textarea>
+			<textarea id="resRawBody" rows="1" readonly></textarea>
+		</div>
+	</div>
+	<div class="row hidden" id="wrapResJsonBody">
+		<div class="col-12">
+			<textarea id="resJsonBody" rows="1" readonly></textarea>
+		</div>
+	</div>
+	<div class="row hidden" id="wrapResHtmlBody">
+		<div class="col-12">
+			<iframe id="resHtmlBody"></iframe>
 		</div>
 	</div>
 	
